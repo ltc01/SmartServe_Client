@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Menu from "./components/Menu";
-import Cart from "./components/Cart";
+
 import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import { Signin } from "./components/Signin";
@@ -40,12 +40,7 @@ function App() {
           element={
             <>
               <Menu addToCart={addToCart} />
-              <Cart
-                cartItems={cart}
-                removeFromCart={removeFromCart}
-                placeOrder={placeOrder}
-                isLoggedIn={isLoggedIn}
-              />
+              
             </>
           }
         />

@@ -18,7 +18,7 @@ const OrderStatus = ({ userId }) => {
     return () => {
       socket.disconnect();
     };
-  }, [userId]);
+  }, [userId, socket]);
 
   const handlePayment = (orderId) => {
     axios.put(`http://localhost:5000/api/orders/${orderId}/pay`)
