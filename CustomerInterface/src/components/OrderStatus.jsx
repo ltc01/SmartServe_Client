@@ -7,12 +7,10 @@ const OrderStatus = ({ userId }) => {
   const socket = io('http://localhost:5000');
 
   useEffect(() => {
-    // Fetch user orders
     axios.get(`http://localhost:5000/api/orders/user/${userId}`)
       .then(response => setOrders(response.data))
       .catch(error => console.error('Error fetching orders:', error));
 
-    // Listen for order status updates
     socket.on('orderUpdate', updatedOrder => {
       setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
     });
@@ -23,7 +21,6 @@ const OrderStatus = ({ userId }) => {
   }, [userId]);
 
   const handlePayment = (orderId) => {
-    // Call the API to mark the order as paid
     axios.put(`http://localhost:5000/api/orders/${orderId}/pay`)
       .then(response => {
         setOrders(prevOrders => prevOrders.map(order => order._id === orderId ? response.data : order));
@@ -33,18 +30,25 @@ const OrderStatus = ({ userId }) => {
   };
 
   return (
-    <div>
-      <h2>Order Status</h2>
-      <ul>
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Order Status</h2>
+      <ul className="space-y-2">
         {orders.map(order => (
-          <li key={order._id}>
+          <li key={order._id} className="border p-2 rounded shadow">
             <div>
-              {order.items.map(item => item.name).join(', ')} - {order.status} - Total: ${order.totalAmount.toFixed(2)}
+              <p><strong>Items:</strong> {order.items.map(item => item.name).join(', ')}</p>
+              <p><strong>Status:</strong> {order.status}</p>
+              <p><strong>Total:</strong> ${order.totalAmount.toFixed(2)}</p>
             </div>
             {order.status === 'approved' && !order.paid && (
-              <button onClick={() => handlePayment(order._id)}>Proceed to Payment</button>
+              <button
+                className="mt-2 bg-green-500 text-white px-4 py-2 rounded"
+                onClick={() => handlePayment(order._id)}
+              >
+                Proceed to Payment
+              </button>
             )}
-            {order.paid && <span> - Paid</span>}
+            {order.paid && <span className="text-green-600 font-bold"> - Paid</span>}
           </li>
         ))}
       </ul>
