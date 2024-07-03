@@ -8,6 +8,8 @@ const Cart = ({ cartItems, removeFromCart, placeOrder ,isLoggedIn}) => {
     if(cartItems.length > 0){
       if (isLoggedIn) {
         placeOrder();
+         // Navigate to the order status page after placing an order
+        navigate('/order-status');
       } else {
         // Navigate to login page or show a message to the user
         alert('Please log in to place your order.');
