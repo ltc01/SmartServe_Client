@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { io } from 'socket.io-client';
 
 const Cart = ({
   cartItem,
@@ -171,14 +172,14 @@ const OrderStatus = ({ userId }) => {
     };
   }, [userId, socket]);
 
-  // const handlePayment = (orderId) => {
+  const handlePayment = (orderId) => {
   //   axios.put(`http://localhost:5000/api/orders/${orderId}/pay`)
   //     .then(response => {
   //       setOrders(prevOrders => prevOrders.map(order => order._id === orderId ? response.data : order));
-  //       alert('Payment successful!');
+        alert('Payment successful!');
   //     })
   //     .catch(error => console.error('Error processing payment:', error));
-  // };
+  };
 
   return (
     <div className="container mx-auto p-4">
