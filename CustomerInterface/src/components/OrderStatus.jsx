@@ -7,9 +7,9 @@ const OrderStatus = ({ userId }) => {
   const socket = io('http://localhost:5000');
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/orders/user/${userId}`)
-      .then(response => setOrders(response.data))
-      .catch(error => console.error('Error fetching orders:', error));
+    // axios.get(`http://localhost:5000/api/orders/user/${userId}`)
+    //   .then(response => setOrders(response.data))
+    //   .catch(error => console.error('Error fetching orders:', error));
 
     socket.on('orderUpdate', updatedOrder => {
       setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
@@ -21,12 +21,13 @@ const OrderStatus = ({ userId }) => {
   }, [userId, socket]);
 
   const handlePayment = (orderId) => {
-    axios.put(`http://localhost:5000/api/orders/${orderId}/pay`)
-      .then(response => {
-        setOrders(prevOrders => prevOrders.map(order => order._id === orderId ? response.data : order));
-        alert('Payment successful!');
-      })
-      .catch(error => console.error('Error processing payment:', error));
+    // axios.put(`http://localhost:5000/api/orders/${orderId}/pay`)
+    //   .then(response => {
+    //     setOrders(prevOrders => prevOrders.map(order => order._id === orderId ? response.data : order));
+    //     alert('Payment successful!');
+    //   })
+    //   .catch(error => console.error('Error processing payment:', error));
+    alert('Payment successful')
   };
 
   return (

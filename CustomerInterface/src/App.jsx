@@ -9,27 +9,12 @@ import Signup from "./components/Signup";
 import OrderStatus from "./components/OrderStatus";
 
 function App() {
-  const [cart, setCart] = useState([]);
+  
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const userId = 'user123'; 
+  // const userId = 'user123'; 
 
-  const addToCart = (item) => {
-    setCart([...cart, item]);
-  };
-
-  const removeFromCart = (index) => {
-    setCart(cart.filter((_, i) => i !== index));
-  };
-
-  const placeOrder = () => {
-    axios
-      .post("http://localhost:5000/api/orders", { items: cart })
-      .then((response) => {
-        alert("Order placed successfully!");
-        setCart([]);
-      })
-      .catch((error) => console.error(error));
-  };
+  
+ 
 
   return (
     <>
@@ -39,12 +24,12 @@ function App() {
           path="/menus"
           element={
             <>
-              <Menu addToCart={addToCart} />
+              <Menu isLoggedIn={isLoggedIn}  />
               
             </>
           }
         />
-         <Route path="/order-status" element={<OrderStatus userId={userId} />} />
+         {/* <Route path="/order-status" element={<OrderStatus userId={userId} />} /> */}
         <Route path="/signin" element={<Signin setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/signup' element={<Signup setIsLoggedIn={setIsLoggedIn} />} />
       </Routes>
