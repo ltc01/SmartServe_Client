@@ -102,7 +102,7 @@ const Orders = () => {
     return () => {
       socket.disconnect();
     };
-  }, [socket]);
+  }, [socket,orders]);
 
   const updateOrderStatus = (id, status) => {
     axios.put(`http://localhost:5000/api/orders/${id}`, { status })
