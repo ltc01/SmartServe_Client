@@ -5,6 +5,7 @@ import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import { Signin } from "./components/Signin";
 import Home from "./pages/Home";
+import Navbar from './components/Navbar'
 import Signup from "./components/Signup";
 import OrderStatus from "./components/OrderStatus";
 
@@ -18,6 +19,7 @@ function App() {
 
   return (
     <>
+      <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

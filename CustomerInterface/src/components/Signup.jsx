@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 // import PropTypes from 'prop-types';
-import { FaEye, FaEyeSlash, FaPinterest } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
-import { CiFacebook } from 'react-icons/ci';
-import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash, FaPinterest } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { CiFacebook } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 // Function to call backend API for sending OTP
-const sendOtp = async (phone) => {
+const sendOtp = async (name, phone) => {
   try {
-    const response = await fetch('http://localhost:5000/api/auth/send-otp', {
-      method: 'POST',
+    const response = await fetch("http://localhost:5000/api/user/send-otp", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ phone }),
+      body: JSON.stringify({ name, phone }),
     });
     return response.ok;
   } catch (error) {
-    console.error('Error sending OTP:', error);
+    console.error("Error sending OTP:", error);
     return false;
   }
 };
@@ -24,43 +24,49 @@ const sendOtp = async (phone) => {
 // Function to call backend API for verifying OTP
 const verifyOtp = async (phone, otp) => {
   try {
-    const response = await fetch('http://localhost:5000/api/auth/verify-otp', {
-      method: 'POST',
+    const response = await fetch("http://localhost:5000/api/user/verify-otp", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ phone, otp }),
     });
-    return response.ok;
+    if (response.ok) {
+      const data = await response.json();
+      return { success: true, token: data.token };
+    } else {
+      return { success: false };
+    }
   } catch (error) {
-    console.error('Error verifying OTP:', error);
+    console.error("Error verifying OTP:", error);
     return false;
   }
 };
 
-const Signup = ({ b=true, setIsLoggedIn}) => {
+const Signup = ({ b = true, setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1); // Step 1: Phone input, Step 2: OTP input
-  const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
-  const [error, setError] = useState('');
-  const [type, setType] = useState('password');
+  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
+  const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+  const [type, setType] = useState("password");
   const [icon, setIcon] = useState(FaEyeSlash);
 
   const handleToggle = () => {
-    setIcon(type === 'password' ? FaEye : FaEyeSlash);
-    setType(type === 'password' ? 'text' : 'password');
+    setIcon(type === "password" ? FaEye : FaEyeSlash);
+    setType(type === "password" ? "text" : "password");
   };
 
   const handlePhoneSubmit = async (e) => {
     e.preventDefault();
     // Call backend API to send OTP to the phone number
-    const result = await sendOtp(phone);
+    const result = await sendOtp(name, phone);
     if (result) {
       setStep(2); // Move to OTP input step
-      setError('');
+      setError("");
     } else {
-      setError('Failed to send OTP. Please try again.');
+      setError("Failed to send OTP. Please try again.");
     }
   };
 
@@ -70,18 +76,26 @@ const Signup = ({ b=true, setIsLoggedIn}) => {
     const result = await verifyOtp(phone, otp);
     if (result) {
       // Handle successful signup/login
-      console.log('OTP verified successfully!');
-      setError('');
+      console.log("OTP verified successfully!");
+      setError("");
+
+      // Store the token in local storage
+      localStorage.setItem("token", result.token);
+
       // Redirect or update UI as needed
-      setIsLoggedIn(true)
-      navigate('/menus')
+      setIsLoggedIn(true);
+      navigate("/menus");
     } else {
-      setError('Invalid OTP. Please try again.');
+      setError("Invalid OTP. Please try again.");
     }
   };
 
   return (
-    <div className={`text-center w-[25rem] py-4 bg-white mx-auto mt-7 ${b && "z-50 shadow-xl"} rounded-2xl`}>
+    <div
+      className={`text-center w-[25rem] py-4 bg-white mx-auto mt-7 ${
+        b && "z-50 shadow-xl"
+      } rounded-2xl`}
+    >
       <FaPinterest className="text-[#e60023] text-3xl mx-auto" />
       <h1 className="text-3xl font-semibold mb-1">Welcome to SmartServe</h1>
       <p>Find new ideas to try</p>
@@ -89,7 +103,22 @@ const Signup = ({ b=true, setIsLoggedIn}) => {
         {step === 1 && (
           <form onSubmit={handlePhoneSubmit}>
             <div>
-              <label htmlFor="phone" className="text-xs">Phone Number</label>
+            <label htmlFor="name" className="text-xs">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                className="w-full rounded-2xl border border-zinc-500 p-3 text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+                placeholder="Enter your full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+              <label htmlFor="phone" className="text-xs">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 name="phone"
@@ -101,7 +130,10 @@ const Signup = ({ b=true, setIsLoggedIn}) => {
                 required
               />
             </div>
-            <button type="submit" className="block bg-red-600 text-white w-full rounded-3xl p-2 mt-3 text-sm font-bold">
+            <button
+              type="submit"
+              className="block bg-red-600 text-white w-full rounded-3xl p-2 mt-3 text-sm font-bold"
+            >
               Send OTP
             </button>
           </form>
@@ -109,7 +141,9 @@ const Signup = ({ b=true, setIsLoggedIn}) => {
         {step === 2 && (
           <form onSubmit={handleOtpSubmit}>
             <div>
-              <label htmlFor="otp" className="text-xs">OTP</label>
+              <label htmlFor="otp" className="text-xs">
+                OTP
+              </label>
               <input
                 type="text"
                 name="otp"
@@ -121,9 +155,10 @@ const Signup = ({ b=true, setIsLoggedIn}) => {
                 required
               />
             </div>
-            <button 
-            type="submit" 
-            className="block bg-red-600 text-white w-full rounded-3xl p-2 mt-3 text-sm font-bold">
+            <button
+              type="submit"
+              className="block bg-red-600 text-white w-full rounded-3xl p-2 mt-3 text-sm font-bold"
+            >
               Verify OTP
             </button>
           </form>
@@ -133,17 +168,11 @@ const Signup = ({ b=true, setIsLoggedIn}) => {
     </div>
   );
 };
-export default Signup
+export default Signup;
 
 // Signup.propTypes = {
 //   b: PropTypes.bool,
 // };
-
-
-
-
-
-
 
 // import React, { useState } from 'react';
 // import { FcGoogle } from 'react-icons/fc';
@@ -334,6 +363,3 @@ export default Signup
 //     console.error('Error:', error);
 //   }
 // };
-
-
-
