@@ -1,39 +1,32 @@
 import React, { useState } from "react";
-import Menu from "./components/Menu";
-// testing
 import axios from "axios";
 import { Route, Routes } from "react-router-dom";
-import { Signin } from "./components/Signin";
 import Home from "./pages/Home";
 import Navbar from './components/Navbar'
 import Signup from "./components/Signup";
-import OrderStatus from "./components/OrderStatus";
+import Menus from "./pages/Menus";
+import AboutUs from "./pages/AboutUs";
+import Reviews from "./pages/Reviews";
+// import { Signin } from "./components/Signin";
+// import OrderStatus from "./components/OrderStatus";
 
 function App() {
   
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  // const userId = 'user123'; 
-
-  
- 
 
   return (
     <>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/menus"
-          element={
-            <>
-              <Menu isLoggedIn={isLoggedIn}  />
-              
-            </>
-          }
-        />
-         {/* <Route path="/order-status" element={<OrderStatus userId={userId} />} /> */}
-        <Route path="/signin" element={<Signin setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path='/signup' element={<Signup setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/about-us" element={<AboutUs />}/>
+        <Route path="/menus" element={<Menus />}/>
+        <Route path='/sign-up' element={<Signup  />} />
+        <Route path="/reviews" element={<Reviews />}/>
+        
+        
+        {/* <Route path="/order-status" element={<OrderStatus userId={userId} />} /> */}
+        {/* <Route path="/signin" element={<Signin setIsLoggedIn={setIsLoggedIn} />} /> */}
+        
       </Routes>
     </>
   );
