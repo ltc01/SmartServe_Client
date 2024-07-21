@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect} from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import MainContext from '../context/MainContext';
 
-const OrderStatus = ({ userId }) => {
-  const [orders, setOrders] = useState([]);
-  const socket = io('http://localhost:5000');
+const OrderStatus = () => {
+  const {userId, orders, setOrders} = useContext(MainContext)
+  
+
+  // const socket = io('http://localhost:5000');
 
   useEffect(() => {
     // axios.get(`http://localhost:5000/api/orders/user/${userId}`)
     //   .then(response => setOrders(response.data))
     //   .catch(error => console.error('Error fetching orders:', error));
 
-    socket.on('orderUpdate', updatedOrder => {
-      setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
-    });
+    // socket.on('orderUpdate', updatedOrder => {
+    //   setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
+    // });
 
-    return () => {
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, [userId, socket]);
 
   const handlePayment = (orderId) => {
