@@ -4,7 +4,7 @@ import React from 'react'
 const StarIcon = ({ color }) => {
     return (
       <svg
-        className={`w-4 h-4 ${color}`}
+        className={`w-3 h-3 ${color}`}
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"

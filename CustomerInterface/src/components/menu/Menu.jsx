@@ -4,6 +4,7 @@ import MainContext from "../../context/MainContext";
 import SearchBar from "./SearchBar";
 import FilterBar from "./FilterBar";
 import MenuItem from "./MenuItem";
+import menu from '../../assets/images/menu.jpg'
 
 const Menu = () => {
   // Fetch menu items from the backend
@@ -59,23 +60,24 @@ const Menu = () => {
   const proceedToPayment = () => {};
 
   return (
-    <>
-      <h2 className="text-2xl text-center font-bold mt-6 py-2">
+    <div
+    className='pb-16 md:px-4'>
+      <h2 className="text-2xl text-center font-bold pt-6 py-2">
         Discover Delicious Menus🍝
       </h2>
       <div className="mt-6 mb-7 px-10">
         <SearchBar />
         <FilterBar />
       </div>
-      <div className="flex flex-wrap justify-center items-center gap-1">
+      
         <MenuItem
           // handleUpdateStatus={handleUpdateStatus}
           updatedMenuList={updatedMenuList}
           isItemInCart={isItemInCart}
           addToCart={addToCart}
         />
-      </div>
-    </>
+      
+    </div>
   );
 };
 
