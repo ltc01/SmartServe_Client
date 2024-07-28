@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import axios from "axios";
 import MainContext from "../../context/MainContext";
 import SearchBar from "./SearchBar";
@@ -7,18 +7,19 @@ import MenuItem from "./MenuItem";
 import menu from '../../assets/images/menu.jpg'
 
 const Menu = () => {
-  // Fetch menu items from the backend
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/menu")
-      .then((response) => setMenuItems(response.data))
-      .catch((error) => console.error(error));
-  }, []);
+  // // Fetch menu items from the backend
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:5000/api/menu")
+  //     .then((response) => setMenuItems(response.data))
+  //     .catch((error) => console.error(error));
+  // }, []);
 
   const { cart, setCart, menuItems, filterStatus, searchItem, setMenuItems } =
     useContext(MainContext);
 
   const isItemInCart = (item) => {
+    
     return cart.some(
       (cartItem) => cartItem.name === item.name && cartItem.price === item.price
     );
@@ -26,21 +27,22 @@ const Menu = () => {
 
   // Function to add items to cart
   const addToCart = (item) => {
-    setCart((prevCart) => {
-      const itemIndex = prevCart.findIndex(
-        (cartItem) => cartItem.name === item.name
-      );
-
-      if (itemIndex !== -1) {
+      // const itemIndex = prevCart.findIndex(
+      //   (cartItem) => cartItem.name === item.name
+      // );
+      // console.log(item)
+      let newCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      if (cart.includes(item)) {
         // Item is already in the cart, remove it
-        return prevCart.filter((_, index) => index !== itemIndex);
+        newCartItems = cart.filter((_, index) => index !== item.index);
       } else {
         // Item is not in the cart, add it
-        return [...prevCart, item];
+        newCartItems = [...cart, item];
       }
-    });
+      setCart(newCartItems)
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
   };
-
+// console.log(menuItems)
   const updatedMenuList = menuItems.filter((item) => {
     const searchMenu = searchItem
       ? item.name.toLowerCase().includes(searchItem.toLowerCase())

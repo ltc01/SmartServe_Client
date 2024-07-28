@@ -13,7 +13,7 @@ import img10 from "../assets/images/vanilla-ice-cream.jpg";
 import { useNavigate } from "react-router-dom";
 
 const ContextProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cartItems")) || []);
   const [menuItems, setMenuItems] = useState(dummyData);
   const [openCart, setOpencart] = useState(false);
   const [placedOrders, setPlacedOrders] = useState([]);
@@ -27,9 +27,9 @@ const ContextProvider = ({ children }) => {
   const [step, setStep] = useState(1); // Step 1: Phone input, Step 2: OTP input
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(new Array(6).fill(''));
   const [error, setError] = useState("");
-
+  const [loading, setLoading] = useState(false); 
   // navbar ke states
   const cardRef = useRef(null);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -46,8 +46,10 @@ const ContextProvider = ({ children }) => {
   const userId = "user123";
   const [orders, setOrders] = useState([]);
 
-
+  const inputRefs = useRef([]);
   const values = {
+    inputRefs,
+    loading, setLoading,
     searchItem,
     setSearchItem,
     filterStatus,

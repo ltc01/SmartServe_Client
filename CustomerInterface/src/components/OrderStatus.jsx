@@ -6,22 +6,22 @@ import MainContext from '../context/MainContext';
 const OrderStatus = () => {
   const {userId, orders, setOrders} = useContext(MainContext)
   
-
+// uncomment to use
   // const socket = io('http://localhost:5000');
 
-  useEffect(() => {
-    // axios.get(`http://localhost:5000/api/orders/user/${userId}`)
-    //   .then(response => setOrders(response.data))
-    //   .catch(error => console.error('Error fetching orders:', error));
+  // useEffect(() => {
+  //   // axios.get(`http://localhost:5000/api/orders/user/${userId}`)
+  //   //   .then(response => setOrders(response.data))
+  //   //   .catch(error => console.error('Error fetching orders:', error));
 
-    // socket.on('orderUpdate', updatedOrder => {
-    //   setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
-    // });
+  //   socket.on('orderUpdate', updatedOrder => {
+  //     setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
+  //   });
 
-    // return () => {
-    //   socket.disconnect();
-    // };
-  }, [userId, socket]);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [userId, socket]);
 
   const handlePayment = (orderId) => {
     // axios.put(`http://localhost:5000/api/orders/${orderId}/pay`)
