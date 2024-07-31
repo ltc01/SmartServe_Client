@@ -15,8 +15,8 @@ import { useNavigate } from "react-router-dom";
 const ContextProvider = ({ children }) => {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cartItems")) || []);
   const [menuItems, setMenuItems] = useState(dummyData);
-  const [openCart, setOpencart] = useState(false);
-  const [placedOrders, setPlacedOrders] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [placedOrders, setPlacedOrders] = useState(JSON.parse(localStorage.getItem("placedOrders")) || []);
   const [totalOfPlacedOrders, setTotalOfPlacedOrders] = useState(0);
   const [filterStatus, setFilterStatus] = useState("");
   const [searchItem, setSearchItem] = useState("");
@@ -35,7 +35,7 @@ const ContextProvider = ({ children }) => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [displayAuth, setDisplayAuth] = useState(false);
   const [displayOnScroll, setDisplayOnScroll] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
   const subNavItems = [
     { item: "About us", url: "/about-us" },
     { item: "Menus", url: "/menus" },
@@ -80,15 +80,15 @@ const ContextProvider = ({ children }) => {
     setCart,
     menuItems,
     setMenuItems,
-    openCart,
-    setOpencart,
+    open,
+    setOpen,
     placedOrders,
     setPlacedOrders,
     totalOfPlacedOrders,
     setTotalOfPlacedOrders,
     cardRef,
-    isOpen,
-    setIsOpen,
+    isOpenMenu,
+    setIsOpenMenu,
     // OrderStatus ke states
     userId,
     orders, setOrders,
@@ -100,29 +100,19 @@ export default ContextProvider;
 
 // Dummy Data for menu items
 const dummyData = [
-  { name: "Margherita Pizza", price: 10, rating: 4.5, img: img1, quantity: 1 },
-  { name: "Pepperoni Pizza", price: 20, rating: 3.7, img: img2, quantity: 1 },
-  { name: "Caesar Salad", price: 10, rating: 1.3, img: img3, quantity: 1 },
-  {
-    name: "Grilled Chicken Sandwich",
-    price: 20,
-    rating: 2.6,
-    img: img4,
-    quantity: 1,
-  },
-  {
-    name: "Spaghetti Bolognese",
-    price: 10,
-    rating: 3.8,
-    img: img5,
-    quantity: 1,
-  },
-  { name: "Cheeseburger", price: 40, rating: 2.4, img: img6, quantity: 1 },
-  { name: "French Fries", price: 20, rating: 5.0, img: img7, quantity: 1 },
-  { name: "Chocolate Cake", price: 10, rating: 3.9, img: img8, quantity: 1 },
-  { name: "Vanilla Ice Cream", price: 20, rating: 2.7, img: img9, quantity: 1 },
-  { name: "Coke", price: 30, rating: 4.5, img: img10, quantity: 1 },
+  { name: "Margherita Pizza", price: 10, rating: 4.5, imageSrc: img1, quantity: 1, desc: "Classic cheese pizza with a delicious tomato base." },
+  { name: "Pepperoni Pizza", price: 20, rating: 3.7, imageSrc: img2, quantity: 1, desc: "Pepperoni slices and melted cheese on a crispy crust." },
+  { name: "Caesar Salad", price: 10, rating: 1.3, imageSrc: img3, quantity: 1, desc: "Fresh romaine lettuce, Caesar dressing, and croutons." },
+  { name: "Grilled Chicken Sandwich", price: 20, rating: 2.6, imageSrc: img4, quantity: 1, desc: "Grilled chicken breast with lettuce and a tangy sauce." },
+  { name: "Spaghetti Bolognese", price: 10, rating: 3.8, imageSrc: img5, quantity: 1, desc: "Pasta topped with a rich and savory meat sauce." },
+  { name: "Cheeseburger", price: 40, rating: 2.4, imageSrc: img6, quantity: 1, desc: "Juicy beef patty with cheese, lettuce, and tomato." },
+  { name: "French Fries", price: 20, rating: 5.0, imageSrc: img7, quantity: 1, desc: "Crispy golden fries, perfect as a side or snack." },
+  { name: "Chocolate Cake", price: 10, rating: 3.9, imageSrc: img8, quantity: 1, desc: "Decadent and moist chocolate cake with frosting." },
+  { name: "Vanilla Ice Cream", price: 20, rating: 2.7, imageSrc: img9, quantity: 1, desc: "Creamy vanilla ice cream, a classic favorite." },
+  { name: "Coke", price: 30, rating: 4.5, imageSrc: img10, quantity: 1, desc: "Chilled and refreshing soda, perfect for any meal." },
 ];
+
+
 const categories = [
   {
     title: "Snacks",

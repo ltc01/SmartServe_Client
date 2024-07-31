@@ -35,15 +35,15 @@ const Navbar = ({ navItemText }) => {
     cart,
     setCart,
     menuItems,
-    openCart,
-    setOpencart,
+    open,
+    setOpen,
     placedOrders,
     setPlacedOrders,
     totalOfPlacedOrders,
     setTotalOfPlacedOrders,
     cardRef,
-    isOpen,
-    setIsOpen,
+    isOpenMenu,
+    setIsOpenMenu,
     userId,
   } = useContext(MainContext);
 
@@ -55,27 +55,28 @@ const Navbar = ({ navItemText }) => {
           : ""
       )
     );
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    // document.addEventListener("mousedown", handleClickOutside);
+    // return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // function to show or hide cart
-  const handleOpenCart = () => setOpencart(!openCart);
+  const handleOpenCart = () => setOpen(!open);
 
-  const handleClickOutside = (event) => {
-    if (
-      cardRef.current &&
-      !cardRef.current.contains(event.target) &&
-      !event.target.closest(".cart-icon")
-    ) {
-      setOpencart(false);
-    }
-  };
+  // const handleClickOutside = (event) => {
+  //   if (
+  //     cardRef.current &&
+  //     !cardRef.current.contains(event.target) &&
+  //     !event.target.closest(".cart-icon")
+  //   ) {
+  //     setOpen(false);
+  //   }
+  // };
 
   // function to remove items from cart
+
   const removeFromCart = (index) => {
     const updatedCart = cart.filter((_, i) => i !== index);
-    setCart(updatedCart)
+    setCart(updatedCart);
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
@@ -92,11 +93,11 @@ const Navbar = ({ navItemText }) => {
     //     text: "⚠ You must be logged in to place an order.",
     //   });
     //   // alert("You must be logged in to place an order.");
-    //   setOpencart(false);
+    //   setOpen(false);
     //   navigate("/sign-up");
     //   return; // Prevent the function from continuing
     // }
-// commented upper code for testing purpose
+    // commented upper code for testing purpose
     if (cartItems.length === 0) {
       Swal.fire({
         icon: "error",
@@ -131,7 +132,7 @@ const Navbar = ({ navItemText }) => {
       //   "http://localhost:5000/api/orders"
       // );
       // if (healthCheckResponse.status !== 200) {
-        
+
       //   throw new Error("Server is not running");
       // }
       // const response = axios.post(
@@ -143,11 +144,11 @@ const Navbar = ({ navItemText }) => {
       //     },
       //   }
       // );
-     const response = {status:201}
+      const response = { status: 201 };
       setLoading(false);
       if (response.status !== 201) {
-          throw new Error("Server is not running");
-        } else {
+        throw new Error("Server is not running");
+      } else {
         Swal.fire({
           icon: "success",
           title: "Orders",
@@ -155,29 +156,29 @@ const Navbar = ({ navItemText }) => {
         });
         // alert("Order placed successfully!");
         setCart([]);
-        localStorage.removeItem("cartItems")
+        localStorage.removeItem("cartItems");
 
         // Add current order to placed orders
         setPlacedOrders((prevOrders) => {
           const updatedOrders = [...prevOrders, ...cartItems];
-   // Retrieve the existing orders from localStorage
-   const preOrders = JSON.parse(localStorage.getItem("placedOrders")) || [];
-   // Save the updated orders back to localStorage
-   localStorage.setItem("placedOrders", JSON.stringify(updatedOrders));
+          // Retrieve the existing orders from localStorage
+          const preOrders =
+            JSON.parse(localStorage.getItem("placedOrders")) || [];
+          // Save the updated orders back to localStorage
+          localStorage.setItem("placedOrders", JSON.stringify(updatedOrders));
 
           return updatedOrders;
         });
         // Retrieve the existing orders from localStorage
-      const existingOrders = JSON.parse(localStorage.getItem("Orders")) || [];
-      // Add the new order to the existing orders
-      const updatedOrders = [...existingOrders, orderPayload];
-      // Save the updated orders back to localStorage
-      localStorage.setItem("Orders", JSON.stringify(updatedOrders));
+        const existingOrders = JSON.parse(localStorage.getItem("Orders")) || [];
+        // Add the new order to the existing orders
+        const updatedOrders = [...existingOrders, orderPayload];
+        // Save the updated orders back to localStorage
+        localStorage.setItem("Orders", JSON.stringify(updatedOrders));
 
         // Accumulate the total cost in the placedOrdersTotal state
         setTotalOfPlacedOrders((prevTotal) => prevTotal + orderTotal);
       }
-
     } catch (error) {
       setLoading(false);
       // console.error("Error placing order:", error);
@@ -193,7 +194,7 @@ const Navbar = ({ navItemText }) => {
 
   // function for menu in mobile size screen
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsOpenMenu(!isOpenMenu);
   };
 
   return (
@@ -240,42 +241,48 @@ const Navbar = ({ navItemText }) => {
             {placedOrders > 0 && <Fryingpan />}
             <div className="hidden cart-icon lg:flex space-x-6 text-slate-500">
               <CartIcon
-                size={20}
-                cart={cart}
-                handleOpenCart={handleOpenCart}
+                // size={20}
+                // cart={cart}
+                // handleOpenCart={handleOpenCart}
                 placedOrders={placedOrders}
-                handleClickOutside={handleClickOutside}
+                // handleClickOutside={handleClickOutside}
               />
               <br />
-              {openCart && (
-                <Cart
-                  cardRef={cardRef}
-                  cartItems={cart}
-                  removeFromCart={removeFromCart}
-                  placedOrders={placedOrders}
-                  isLoggedIn={isLoggedIn}
-                  totalOfPlacedOrders={totalOfPlacedOrders}
-                  handlePlaceOrder={handlePlaceOrder}
-                />
-              )}
+              {/* {open && ( */}
+              <Cart
+                // cardRef={cardRef}
+                // cartItems={cart}
+                removeFromCart={removeFromCart}
+                // placedOrders={placedOrders}
+                isLoggedIn={isLoggedIn}
+                totalOfPlacedOrders={totalOfPlacedOrders}
+                handlePlaceOrder={handlePlaceOrder}
+              />
+              {/* )} */}
               <Link to={"/sign-up"}>
                 <FiUser size={20} onClick={() => setDisplayAuth(true)} />
               </Link>
             </div>
- {/* menu bar mobile size */}
+            {/* menu bar mobile size */}
             <div className="md:pr-8 lg:hidden">
               <button onClick={toggleMenu} className="text-gray-800">
-                {isOpen ? <span className="text-3xl">&times;</span>: <FaBars size={22}  />}
+                {isOpenMenu ? (
+                  <span className="text-3xl">&times;</span>
+                ) : (
+                  <FaBars size={22} />
+                )}
               </button>
             </div>
           </div>
-{/*open card mobile size */}
-            <div className={`absolute max-h-screen top-11 bg-green-100 rounded-s-xl right-0 w-[90%] md:w-[60%] shadow-sm shadow-slate-500 p-4 transition transform duration-700 ease-in-out lg:hidden ${
-              isOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}>
-              
-              <div className="flex items-center justify-end pr-4">
-                {/* <button
+          {/*open card mobile size */}
+          {isOpenMenu && 
+          <div
+            className={`absolute max-h-screen top-11 bg-green-100 rounded-s-xl right-0 w-[90%] md:w-[60%] shadow-sm shadow-slate-500 p-4 transition transform duration-700 ease-in-out lg:hidden ${
+              isOpenMenu ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            <div className="flex items-center justify-end pr-4">
+              {/* <button
                   type="button"
                   className="btn-close font-medium text-3xl cursor-pointer"
                   onClick={toggleMenu}
@@ -283,46 +290,47 @@ const Navbar = ({ navItemText }) => {
                   &times;
                 </button> */}
 
-                <div className="flex space-x-4 justify-center my-2">
-                  <CartIcon
-                    size={20}
-                    cart={cart}
-                    handleOpenCart={handleOpenCart}
-                    totalOfPlacedOrders={totalOfPlacedOrders}
-                    handleClickOutside={handleClickOutside}
-                  />
-                  <br />
-                  {openCart && (
-                    <Cart
-                      cardRef={cardRef}
-                      cartItem={cart}
-                      removeFromCart={removeFromCart}
-                      placedOrders={placedOrders}
-                      isLoggedIn={isLoggedIn}
-                      totalOfPlacedOrders={totalOfPlacedOrders}
-                      handlePlaceOrder={handlePlaceOrder}
-                    />
-                  )}
-                  <FiHeart className="text-gray-800" />
-                  <Link to={"/signup"}>
-                    <FiUser onClick={() => setDisplayAuth(true)} />
-                  </Link>
-                </div>
-              </div>
-              <div className="flex text-sm flex-col w-full gap-4 overflow-auto max-h-screen scroll-smooth">
-                {subNavItems.map((item, index) => (
-                  <Link
-                    to={item.url}
-                    key={index}
-                    className="px-2 text-gray-800 font-medium"
-                  >
-                    {item.item}
-                  </Link>
-                ))}
+              <div className="flex space-x-4 justify-center my-2">
+                <CartIcon
+                  size={20}
+                  cart={cart}
+                  handleOpenCart={handleOpenCart}
+                  totalOfPlacedOrders={totalOfPlacedOrders}
+                  // handleClickOutside={handleClickOutside}
+                />
+                <br />
+                {/* {open && ( */}
+                <Cart
+                  cardRef={cardRef}
+                  cartItem={cart}
+                  removeFromCart={removeFromCart}
+                  placedOrders={placedOrders}
+                  isLoggedIn={isLoggedIn}
+                  totalOfPlacedOrders={totalOfPlacedOrders}
+                  handlePlaceOrder={handlePlaceOrder}
+                />
+                {/* )} */}
+                <FiHeart className="text-gray-800" />
+                <Link to={"/signup"}>
+                  <FiUser onClick={() => setDisplayAuth(true)} />
+                </Link>
               </div>
             </div>
-          
+            <div className="flex text-sm flex-col w-full gap-4 overflow-auto max-h-screen scroll-smooth">
+              {subNavItems.map((item, index) => (
+                <Link
+                  to={item.url}
+                  key={index}
+                  className="px-2 text-gray-800 font-medium"
+                >
+                  {item.item}
+                </Link>
+              ))}
+            </div>
+          </div>
+}
         </div>
+        
       </nav>
     </>
   );

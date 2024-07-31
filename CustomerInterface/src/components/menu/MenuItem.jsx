@@ -13,10 +13,10 @@ const MenuItem = ({ updatedMenuList, addToCart, isItemInCart }) => {
             className="shadow relative group w-[70%]  md:w-1/3 lg:w-[18%] rounded-md overflow-hidden shadow-slate-400"
           >
             {isItemInCart(item) && <AiFillCheckCircle 
-            className='absolute text-emerald-700 text-4xl right-2 top-2 bg-white rounded-full' /> }
+            className='absolute text-teal-600 text-4xl right-2 top-2 bg-white rounded-full' /> }
             <div className="w-full bg-black">
               <img
-                src={item.img}
+                src={item.imageSrc}
                 alt={`Image of ${item.name}`}
                 className="h-[200px] w-full object-cover object-top "
               />
@@ -40,16 +40,16 @@ const MenuItem = ({ updatedMenuList, addToCart, isItemInCart }) => {
                   {item.rating}
                 </span>
                 </div>
-                <p className="text-xs font-semibold text-rose-700">₹
-                <span className="text-lg ">{item.price}/-</span>
+                <p className="text- font-semibold text-rose-600">₹
+                <span className="text-lg ">{item.price}.00</span>
               </p>
               </div>
               <div className="absolute border border-black overflow-hidden rounded-md hidden group-hover:flex justify-center items-center top-0 right-0 left-0 bottom-0 bg-black/30 ">
                 <button
                   onClick={() => addToCart(item)}
-                  className=" hover:bg-rose-700 bg-black rounded text-white p-2 px-3"
+                  className={`${ isItemInCart ? 'bg-teal-600' : 'bg-black'} hover:bg-rose-700 rounded text-white p-2 px-3 `}
                 >
-                  {isItemInCart(item) ? "Remove from Cart" : "Add to cart"}
+                  {isItemInCart(item) ? "Added to Cart" : "Add to Cart"}
                 </button>
                 </div>
             </div>
