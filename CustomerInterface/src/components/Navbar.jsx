@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FiHeart, FiUser } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa6";
 import MainContext from "../context/MainContext";
 import { useContext } from "react";
@@ -19,12 +19,11 @@ const Fryingpan = () => {
   );
 };
 
-const Navbar = ({ navItemText }) => {
+const Navbar = () => {
   const {
     loading,
     setLoading,
     isLoggedIn,
-    navigate,
     openDropdown,
     setOpenDropdown,
     displayAuth,
@@ -46,6 +45,7 @@ const Navbar = ({ navItemText }) => {
     setIsOpenMenu,
     userId,
   } = useContext(MainContext);
+  const navigate = useNavigate()
 
   useEffect(() => {
     window.addEventListener("scroll", () =>
@@ -222,14 +222,15 @@ const Navbar = ({ navItemText }) => {
           <div className="w-full py-1 px-4 ">
             <ul className="w-full flex gap-6 justify-end lg:justify-center xl:gap-8 tracking-wider">
               {subNavItems.map((item, index) => (
-                <li className="flex-shrink-0 " key={index}>
-                  <Link
-                    to={`/${item.url}`}
-                    className="hover:underline text-sm font-medium text-slate-500 hover:text-rose-800"
-                    onClick={() => navItemText(item)}
+                <li key={index}
+                // >
+                //   <Link
+                //     to={`/${item.url}`}
+                    className="flex-shrink-0 hover:underline text-sm font-medium text-slate-500 hover:text-rose-800"
+                    onClick={() => navigate(`${item.url}`)}
                   >
                     {item.item}
-                  </Link>
+                  {/* </Link> */}
                 </li>
               ))}
             </ul>

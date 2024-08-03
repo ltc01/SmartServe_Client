@@ -5,10 +5,11 @@ import CheckoutPage, {
 import RelatedProducts from "../components/Checkout/RelatedProducts";
 import MainContext from "../context/MainContext";
 import { EmptyCart } from "../components/CartIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CardCheckoutPage = () => {
-  const { cart, navigate } = useContext(MainContext);
+  const { cart } = useContext(MainContext);
+  const navigate = useNavigate()
   return (
     <div className="md:mx-2 mb-20 mt-3 lg:mx-6">
       {cart.length > 0 ? (

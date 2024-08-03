@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import MainContext from "../context/MainContext";
 import Swal from "sweetalert2";
 import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
 
 const Signup = ({ b = true }) => {
   const {
     loading,
     setLoading,
     setIsLoggedIn,
-    navigate,
     step,
     setStep,
     phone,
@@ -21,6 +21,7 @@ const Signup = ({ b = true }) => {
     setError,
     inputRefs,
   } = useContext(MainContext);
+  const navigate = useNavigate()
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/[^0-9]/g, ""); // Only allows digits

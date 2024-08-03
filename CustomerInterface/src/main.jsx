@@ -7,10 +7,10 @@ import ContextProvider from "./context/ContextProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ContextProvider>
+    <ContextProvider>
+      <BrowserRouter>
         <App />
-      </ContextProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ContextProvider>
   </React.StrictMode>
 );

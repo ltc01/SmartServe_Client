@@ -10,7 +10,6 @@ import img7 from "../assets/images/french-fries.jpg";
 import img8 from "../assets/images/chocolate-cake.jpg";
 import img9 from "../assets/images/coke.jpg";
 import img10 from "../assets/images/vanilla-ice-cream.jpg";
-import { useNavigate } from "react-router-dom";
 
 const ContextProvider = ({ children }) => {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cartItems")) || []);
@@ -23,7 +22,6 @@ const ContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // states for signup functionality
-  const navigate = useNavigate();
   const [step, setStep] = useState(1); // Step 1: Phone input, Step 2: OTP input
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
@@ -55,7 +53,6 @@ const ContextProvider = ({ children }) => {
     filterStatus,
     setFilterStatus,
     // signupp ke states
-    navigate,
     step,
     setStep,
     phone,
