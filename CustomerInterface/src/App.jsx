@@ -9,6 +9,7 @@ import AboutUs from "./pages/AboutUs";
 import Reviews from "./pages/Reviews";
 import CheckoutPage from "./components/Checkout/CheckoutPage";
 import CardCheckoutPage from "./pages/CardCheckoutPage";
+import ProductPage from "./components/ProductDescription/ProductPage";
 // import { Signin } from "./components/Signin";
 // import OrderStatus from "./components/OrderStatus";
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/sign-up' element={<Signup  />} />
         <Route path="/reviews" element={<Reviews />}/>
         <Route path="/checkout" element={<CardCheckoutPage />}/>
+        <Route path="/product" element={<ProductPage  />}/>
         
         
         

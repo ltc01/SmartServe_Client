@@ -17,30 +17,33 @@ const Menu = () => {
 
   const { cart, setCart, menuItems, filterStatus, searchItem, setMenuItems } =
     useContext(MainContext);
-
+  
   const isItemInCart = (item) => {
     
-    return cart.some(
+    return cart?.some(
       (cartItem) => cartItem.name === item.name && cartItem.price === item.price
     );
   };
 
   // Function to add items to cart
-  const addToCart = (item) => {
-      // const itemIndex = prevCart.findIndex(
-      //   (cartItem) => cartItem.name === item.name
-      // );
-      // console.log(item)
-      let newCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      if (cart.includes(item)) {
-        // Item is already in the cart, remove it
-        newCartItems = cart.filter((_, index) => index !== item.index);
-      } else {
+  const addToCart = (item) => { 
+      setCart((prevCart) => {
+        const itemExists = prevCart.some((cartItem) => cartItem.name === item.name);
+    
+        // If the item is already in the cart, don't add it again
+        if (itemExists) {
+          return prevCart;
+        }
+    
         // Item is not in the cart, add it
-        newCartItems = [...cart, item];
-      }
-      setCart(newCartItems)
-      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+        const updatedCart = [...prevCart, item];
+    
+        // Save updated cart to localStorage
+        localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+    
+        return updatedCart;
+      });
+      
   };
 // console.log(menuItems)
   const updatedMenuList = menuItems.filter((item) => {

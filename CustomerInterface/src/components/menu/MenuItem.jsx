@@ -47,7 +47,7 @@ const MenuItem = ({ updatedMenuList, addToCart, isItemInCart }) => {
               <div className="absolute border border-black overflow-hidden rounded-md hidden group-hover:flex justify-center items-center top-0 right-0 left-0 bottom-0 bg-black/30 ">
                 <button
                   onClick={() => addToCart(item)}
-                  className={`${ isItemInCart ? 'bg-teal-600' : 'bg-black'} hover:bg-rose-700 rounded text-white p-2 px-3 `}
+                  className={`${ isItemInCart(item) ? 'bg-black': 'bg-teal-600' } rounded text-white p-2 px-3 `}
                 >
                   {isItemInCart(item) ? "Added to Cart" : "Add to Cart"}
                 </button>

@@ -50,10 +50,27 @@ const SpecialInstructions = () => {
   ];
 
   return (
-    <div className="p-4 mt-4 text-gray-100 md:mt-0 bg-teal-700/90 border border-gray-300 rounded-lg">
+    // bg-teal-700/90
+    <div className="p-4 mt-4 text-gray-100 md:mt-0 bg-gradient-to-r from-black/90 to-teal-600/90 border border-gray-300 rounded-lg">
       <h2 className="text-white text-xl font-semibold mb-4">
         Customize Your Order
       </h2>
+      <div className="mb-4">
+        <label
+          htmlFor="additional"
+          className="block text-white text-sm font-medium mb-1"
+        >
+          Additional Instructions
+        </label>
+        <input
+          type="text"
+          id="additional"
+          className="mt-1 block w-full p-2 bg-slate-100 text-black border outline-none rounded-md focus:ring-black focus:border-black"
+          placeholder="Any other specific requests or instructions?"
+          value={customInstructions}
+          onChange={(e) => setCustomInstructions(e.target.value)}
+        />
+      </div>
       <p className=" mb-2">
         Use the icons below to add specific instructions or click the{" "}
         <span className="font-medium underline text-teal-200">
@@ -193,22 +210,7 @@ const SpecialInstructions = () => {
         </div>
       )}
 
-      <div className="mb-4">
-        <label
-          htmlFor="additional"
-          className="block text-white text-sm font-medium mb-1"
-        >
-          Additional Instructions
-        </label>
-        <input
-          type="text"
-          id="additional"
-          className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
-          placeholder="Any other specific requests or instructions?"
-          value={customInstructions}
-          onChange={(e) => setCustomInstructions(e.target.value)}
-        />
-      </div>
+      
     </div>
   );
 };

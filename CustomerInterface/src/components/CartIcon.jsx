@@ -20,7 +20,7 @@ export const Grocery = () => {
 
 export const EmptyCart = () => {
   return (
-    <div className="w-36 h-36 flex items-center justify-center">
+    <div className="w-36 animate-pulse h-36 flex items-center justify-center">
       <img 
       src={emptyCart} 
       alt="Grocery" 
@@ -43,9 +43,9 @@ const CartIcon = ({ carts, handleOpenCart, placedOrders }) => {
     <div className="relative cursor-pointer " onClick={handleClick}>
       <FiShoppingCart className="" size={20} />
       {/* <Grocery > */}
-      {cart.length > 0 && (
+      {cart?.length > 0 && (
         <span className="absolute top-0 z-[999] left-3 inline-flex items-center justify-center w-4 h-4 text-xs font-medium text-white bg-rose-600 rounded-full -mt-2">
-          {cart.length}
+          {cart?.length}
         </span>
       )}
       {/* {placedOrders?.length > 0 && (

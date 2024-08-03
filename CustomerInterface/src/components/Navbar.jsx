@@ -224,7 +224,7 @@ const Navbar = ({ navItemText }) => {
               {subNavItems.map((item, index) => (
                 <li className="flex-shrink-0 " key={index}>
                   <Link
-                    to={item.url}
+                    to={`${item.url}`}
                     className="hover:underline text-sm font-medium text-slate-500 hover:text-rose-800"
                     onClick={() => navItemText(item)}
                   >

@@ -100,16 +100,16 @@ export default ContextProvider;
 
 // Dummy Data for menu items
 const dummyData = [
-  { name: "Margherita Pizza", price: 10, rating: 4.5, imageSrc: img1, quantity: 1, desc: "Classic cheese pizza with a delicious tomato base." },
-  { name: "Pepperoni Pizza", price: 20, rating: 3.7, imageSrc: img2, quantity: 1, desc: "Pepperoni slices and melted cheese on a crispy crust." },
-  { name: "Caesar Salad", price: 10, rating: 1.3, imageSrc: img3, quantity: 1, desc: "Fresh romaine lettuce, Caesar dressing, and croutons." },
-  { name: "Grilled Chicken Sandwich", price: 20, rating: 2.6, imageSrc: img4, quantity: 1, desc: "Grilled chicken breast with lettuce and a tangy sauce." },
-  { name: "Spaghetti Bolognese", price: 10, rating: 3.8, imageSrc: img5, quantity: 1, desc: "Pasta topped with a rich and savory meat sauce." },
-  { name: "Cheeseburger", price: 40, rating: 2.4, imageSrc: img6, quantity: 1, desc: "Juicy beef patty with cheese, lettuce, and tomato." },
-  { name: "French Fries", price: 20, rating: 5.0, imageSrc: img7, quantity: 1, desc: "Crispy golden fries, perfect as a side or snack." },
-  { name: "Chocolate Cake", price: 10, rating: 3.9, imageSrc: img8, quantity: 1, desc: "Decadent and moist chocolate cake with frosting." },
-  { name: "Vanilla Ice Cream", price: 20, rating: 2.7, imageSrc: img9, quantity: 1, desc: "Creamy vanilla ice cream, a classic favorite." },
-  { name: "Coke", price: 30, rating: 4.5, imageSrc: img10, quantity: 1, desc: "Chilled and refreshing soda, perfect for any meal." },
+  { name: "Margherita Pizza", price: 150, rating: 4.5, imageSrc: img1, quantity: 1, desc: "Classic cheese pizza with a delicious tomato base." },
+  { name: "Pepperoni Pizza", price: 220, rating: 3.7, imageSrc: img2, quantity: 1, desc: "Pepperoni slices and melted cheese on a crispy crust." },
+  { name: "Caesar Salad", price: 160, rating: 1.3, imageSrc: img3, quantity: 1, desc: "Fresh romaine lettuce, Caesar dressing, and croutons." },
+  { name: "Grilled Chicken Sandwich", price: 210, rating: 2.6, imageSrc: img4, quantity: 1, desc: "Grilled chicken breast with lettuce and a tangy sauce." },
+  { name: "Spaghetti Bolognese", price: 120, rating: 3.8, imageSrc: img5, quantity: 1, desc: "Pasta topped with a rich and savory meat sauce." },
+  { name: "Cheeseburger", price: 140, rating: 2.4, imageSrc: img6, quantity: 1, desc: "Juicy beef patty with cheese, lettuce, and tomato." },
+  { name: "French Fries", price: 80, rating: 5.0, imageSrc: img7, quantity: 1, desc: "Crispy golden fries, perfect as a side or snack." },
+  { name: "Chocolate Cake", price: 450, rating: 3.9, imageSrc: img8, quantity: 1, desc: "Decadent and moist chocolate cake with frosting." },
+  { name: "Vanilla Ice Cream", price: 90, rating: 2.7, imageSrc: img9, quantity: 1, desc: "Creamy vanilla ice cream, a classic favorite." },
+  { name: "Coke", price: 120, rating: 4.5, imageSrc: img10, quantity: 1, desc: "Chilled and refreshing soda, perfect for any meal." },
 ];
 
 
