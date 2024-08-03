@@ -1,6 +1,6 @@
 
 {
     "rewrites": [
-      { "source": "https://smart-serve-client.vercel.app/(.*)", "destination": "/" }
+      { "source": "/(.*)", "destination": "/" }
     ]
   }
