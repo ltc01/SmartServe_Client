@@ -1,10 +1,10 @@
 import React from 'react'
 
 // Star Icon for ratings of menuItem
-const StarIcon = ({ color }) => {
+const StarIcon = ({size='w-3 h-3', color }) => {
     return (
       <svg
-        className={`w-3 h-3 ${color}`}
+        className={`${size} ${color}`}
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
