@@ -1,6 +1,5 @@
-
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -40,6 +39,7 @@ import { Link } from "react-router-dom";
 export default function Cart({removeFromCart}) {
   // const [open, setOpen] = useState(true)
   // {console.log(setOpen)}
+  const navigate = useNavigate()
   const { open, setOpen, setCart } = useContext(MainContext);
   const products = JSON.parse(localStorage.getItem("cartItems")) || [];
 
@@ -191,12 +191,12 @@ export default function Cart({removeFromCart}) {
                   <p className="mt-0.5 text-sm text-gray-500">
                   Taxes and additional charges may apply at checkout.</p>
                   <div className="mt-4 md:mt-6">
-                    <a
-                      href="/checkout"
+                    <div
+                    onClick={()=> navigate('/checkout')}
                       className="flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-6 py-2 md:py-3 text-base font-medium text-white shadow-sm hover:bg-teal-700"
                     >
                       Checkout
-                    </a>
+                    </div>
                   </div>
                   <div className="mt-3 flex justify-center text-center text-sm text-gray-500">
                     <Link to={'/menus'}>

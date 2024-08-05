@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
@@ -10,16 +10,20 @@ import Reviews from "./pages/Reviews";
 import CheckoutPage from "./components/Checkout/CheckoutPage";
 import CardCheckoutPage from "./pages/CardCheckoutPage";
 import ProductPage from "./components/ProductDescription/ProductPage";
+import Loading from "./components/Loading";
+import MainContext from "./context/MainContext";
 // import { Signin } from "./components/Signin";
 // import OrderStatus from "./components/OrderStatus";
 
 function App() {
-  
+  const {loading} = useContext(MainContext)
 
   return (
     <>
+      {loading && <Loading />}
       <Navbar />
       <Routes>
+        
         <Route path="/" element={<Home />} />
         <Route path="/about-us" element={<AboutUs />}/>
         <Route path="/menus" element={<Menus />}/>

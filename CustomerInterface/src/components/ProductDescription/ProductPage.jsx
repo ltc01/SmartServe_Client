@@ -4,7 +4,7 @@ import StarIcon from "../StarIcon";
 import RelatedProducts from "../Checkout/RelatedProducts";
 
 const ProductPage = () => {
-  const { menuItems } = useContext(MainContext);
+  const { menuItems, setCart } = useContext(MainContext);
   // console.log(menuItems)
   const name = menuItems[0].name;
   const imageSrc = menuItems[0].imageSrc;
@@ -15,13 +15,33 @@ const ProductPage = () => {
   const originalPrice = parseFloat(price.toString().replace(/[^0-9.-]+/g, ""));
   const discount = 0.1; // 10% discount
   const discountedPrice = originalPrice - originalPrice * discount;
+  // Function to add items to cart
+  const addToCart = (item) => { 
+    setCart((prevCart) => {
+      const itemExists = prevCart.some((cartItem) => cartItem.name === item.name);
+  
+      // If the item is already in the cart, don't add it again
+      if (itemExists) {
+        return prevCart;
+      }
+  
+      // Item is not in the cart, add it
+      const updatedCart = [...prevCart, item];
+  
+      // Save updated cart to localStorage
+      localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+  
+      return updatedCart;
+    });
+    
+};
   return (
       <div class="p-4 my-10 lg:max-w-7xl max-w-xl max-lg:mx-auto">
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-8">
           {/* Image of Product */}
           <div class="min-h-[500px] lg:col-span-3 bg-gradient-to-tr  from-[#F8C794] via-[#FFE0B5] to-[#FFF2D7] rounded-lg w-full lg:sticky top-0 text-center p-6">
             <img
-              src="https://readymadeui.com/images/coffee8.webp"
+              src={imageSrc}
               alt="Product"
               class="w-3/5 rounded object-cover mx-auto py-6"
             />
@@ -115,6 +135,7 @@ const ProductPage = () => {
 
             {/* Add to cart Button */}
             <button
+            onClick={()=>addToCart(item)}
               type="button"
               class="w-full mt-6 px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-md"
             >
@@ -126,7 +147,6 @@ const ProductPage = () => {
               <h3 class="text-xl font-bold text-gray-800">All Reviews(10)</h3>
 
               {/* Progressbar of Reviews */}
-
               <div class="pr-3 space-y-1 md:space-y-2 mt-4">
                 <div class="flex items-center">
                   <p class="text-sm text-gray-800 font-bold">5.0</p>

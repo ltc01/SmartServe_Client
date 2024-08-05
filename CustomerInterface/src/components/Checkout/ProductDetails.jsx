@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import MainContext from "../../context/MainContext";
 import StarIcon from "../StarIcon";
+import { EmptyCart } from "../CartIcon";
+import { Link } from "react-router-dom";
 
 const ProductDetails = () => {
   const { cart, setCart } = useContext(MainContext);
@@ -22,7 +24,8 @@ const ProductDetails = () => {
 
   return (
     <>
-      {cart.map((product, index) => (
+      { cart.length > 0 ? (
+      cart.map((product, index) => (
         <div class="rounded-lg bg-white border border-gray-200 p-2 shadow-sm shadow-slate-600 dark:border-gray-700 dark:bg-gray-800 md:p-2">
           <div class="hidden md:flex md:items-center md:gap-5 md:space-y-0">
             <ProductImage img={product.imageSrc} name={product.name} />
@@ -128,8 +131,31 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-      ))}
+      )) ) : (
+        <>
+            <div className="text-slate-500 h-[20rem] flex flex-col items-center justify-center ">
+              <EmptyCart />
+              <p className="text-slate-500 text-xl animate-pulse text-center">
+                Your cart is empty!!
+              </p>
+              <div className="mt-3 flex justify-center text-center text-gray-500">
+                <Link to={"/menus"}>
+                  <button
+                    type="button"
+                    className="font-[700] text-lg text-teal-900 hover:underline"
+                  >
+                    {/* Explore Delicious Dishes 🥘 */} .....take me to the
+                    Menus 🍽
+                    {/* <span aria-hidden="true"> &rarr;</span> */}
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </>
+      )
+    }
     </>
+
   );
 };
 

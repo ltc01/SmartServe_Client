@@ -160,30 +160,28 @@ export const OrderSummary = () => {
 const CheckoutPage = () => {
   
   return (
-    <section class="bg-white py-4 antialiased dark:bg-gray-900 md:py-6">
+    <section class="bg-white pt-4 antialiased dark:bg-gray-900 md:py-6">
       <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
           Cart details
         </h2>
 
-        <div class="md:mt-8 md:flex md:space-x-8 mx-auto">
+        <div class="mt-4 md:mt-8 md:flex-row-reverse flex flex-col-reverse md:gap-4 mx-auto">
+          {/* Special Instructions */}
           <div class="w-full mb-6 md:mt-0 md:w-1/3 ">
-            {/* Special Instructions */}
             <div class="space-y-6">
               <SpecialInstructions />
-              {/* <OrderSummary /> */}
             </div>
           </div>
+          
           {/* Cart items----------- */}
-          <div class="w-full h-[25rem] overflow-y-scroll md:w-2/3">
+          <div class="w-full max-h-[25rem] overflow-y-scroll md:w-2/3">
           {/* <h2 className="text-base md:text-xl font-semibold relative bottom-3">Cart Items</h2> */}
-            <div class="space-y-6">
+            <div class="space-y-6 p-1">
               <ProductDetails />
             </div>
           </div>
         </div>
-
-        {/* <RelatedProducts /> */}
       </div>
     </section>
   );
