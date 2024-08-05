@@ -1,4 +1,4 @@
-import React, { useRef, useState  } from "react";
+import React, { useRef, useState } from "react";
 import MainContext from "./MainContext";
 import img1 from "../assets/images/margherita.jpg";
 import img2 from "../assets/images/pepperoni.jpg";
@@ -12,22 +12,39 @@ import img9 from "../assets/images/coke.jpg";
 import img10 from "../assets/images/vanilla-ice-cream.jpg";
 
 const ContextProvider = ({ children }) => {
-  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cartItems")) || []);
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cartItems")) || []
+  );
   const [menuItems, setMenuItems] = useState(dummyData);
   const [open, setOpen] = useState(false);
-  const [placedOrders, setPlacedOrders] = useState(JSON.parse(localStorage.getItem("placedOrders")) || []);
+  const [placedOrders, setPlacedOrders] = useState(
+    JSON.parse(localStorage.getItem("placedOrders")) || []
+  );
   const [totalOfPlacedOrders, setTotalOfPlacedOrders] = useState(0);
   const [filterStatus, setFilterStatus] = useState("");
   const [searchItem, setSearchItem] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
+  const subtotal = cart.reduce((sum, item) => {
+    const priceNumber = parseFloat(
+      item.price.toString().replace(/[^0-9.-]+/g, "")
+    );
+    return sum + priceNumber * item.quantity;
+  }, 0);
+  const savings = 0.1 * subtotal; // Example: 10% discount on subtotal
+  const serviceCharge = 0.05 * subtotal; // Example: 5% service charge
+  const taxRate = 0.08; // Example: 8% tax rate
+  const tax = (subtotal - savings + serviceCharge) * taxRate; // Tax calculation based on discounted subtotal
+  const total = subtotal - savings + serviceCharge + tax;
+
+
   // states for signup functionality
   const [step, setStep] = useState(1); // Step 1: Phone input, Step 2: OTP input
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
-  const [otp, setOtp] = useState(new Array(6).fill(''));
+  const [otp, setOtp] = useState(new Array(6).fill(""));
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   // navbar ke states
   const cardRef = useRef(null);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -47,7 +64,8 @@ const ContextProvider = ({ children }) => {
   const inputRefs = useRef([]);
   const values = {
     inputRefs,
-    loading, setLoading,
+    loading,
+    setLoading,
     searchItem,
     setSearchItem,
     filterStatus,
@@ -88,7 +106,10 @@ const ContextProvider = ({ children }) => {
     setIsOpenMenu,
     // OrderStatus ke states
     userId,
-    orders, setOrders,
+    orders,
+    setOrders,
+    total,
+    subtotal, savings, serviceCharge, taxRate, tax,
   };
   return <MainContext.Provider value={values}>{children}</MainContext.Provider>;
 };
@@ -97,18 +118,87 @@ export default ContextProvider;
 
 // Dummy Data for menu items
 const dummyData = [
-  { name: "Margherita Pizza", price: 150, rating: 4.5, imageSrc: img1, quantity: 1, desc: "Classic cheese pizza with a delicious tomato base." },
-  { name: "Pepperoni Pizza", price: 220, rating: 3.7, imageSrc: img2, quantity: 1, desc: "Pepperoni slices and melted cheese on a crispy crust." },
-  { name: "Caesar Salad", price: 160, rating: 1.3, imageSrc: img3, quantity: 1, desc: "Fresh romaine lettuce, Caesar dressing, and croutons." },
-  { name: "Grilled Chicken Sandwich", price: 210, rating: 2.6, imageSrc: img4, quantity: 1, desc: "Grilled chicken breast with lettuce and a tangy sauce." },
-  { name: "Spaghetti Bolognese", price: 120, rating: 3.8, imageSrc: img5, quantity: 1, desc: "Pasta topped with a rich and savory meat sauce." },
-  { name: "Cheeseburger", price: 140, rating: 2.4, imageSrc: img6, quantity: 1, desc: "Juicy beef patty with cheese, lettuce, and tomato." },
-  { name: "French Fries", price: 80, rating: 5.0, imageSrc: img7, quantity: 1, desc: "Crispy golden fries, perfect as a side or snack." },
-  { name: "Chocolate Cake", price: 450, rating: 3.9, imageSrc: img8, quantity: 1, desc: "Decadent and moist chocolate cake with frosting." },
-  { name: "Vanilla Ice Cream", price: 90, rating: 2.7, imageSrc: img9, quantity: 1, desc: "Creamy vanilla ice cream, a classic favorite." },
-  { name: "Coke", price: 120, rating: 4.5, imageSrc: img10, quantity: 1, desc: "Chilled and refreshing soda, perfect for any meal." },
+  {
+    name: "Margherita Pizza",
+    price: 150,
+    rating: 4.5,
+    imageSrc: img1,
+    quantity: 1,
+    desc: "Classic cheese pizza with a delicious tomato base.",
+  },
+  {
+    name: "Pepperoni Pizza",
+    price: 220,
+    rating: 3.7,
+    imageSrc: img2,
+    quantity: 1,
+    desc: "Pepperoni slices and melted cheese on a crispy crust.",
+  },
+  {
+    name: "Caesar Salad",
+    price: 160,
+    rating: 1.3,
+    imageSrc: img3,
+    quantity: 1,
+    desc: "Fresh romaine lettuce, Caesar dressing, and croutons.",
+  },
+  {
+    name: "Grilled Chicken Sandwich",
+    price: 210,
+    rating: 2.6,
+    imageSrc: img4,
+    quantity: 1,
+    desc: "Grilled chicken breast with lettuce and a tangy sauce.",
+  },
+  {
+    name: "Spaghetti Bolognese",
+    price: 120,
+    rating: 3.8,
+    imageSrc: img5,
+    quantity: 1,
+    desc: "Pasta topped with a rich and savory meat sauce.",
+  },
+  {
+    name: "Cheeseburger",
+    price: 140,
+    rating: 2.4,
+    imageSrc: img6,
+    quantity: 1,
+    desc: "Juicy beef patty with cheese, lettuce, and tomato.",
+  },
+  {
+    name: "French Fries",
+    price: 80,
+    rating: 5.0,
+    imageSrc: img7,
+    quantity: 1,
+    desc: "Crispy golden fries, perfect as a side or snack.",
+  },
+  {
+    name: "Chocolate Cake",
+    price: 450,
+    rating: 3.9,
+    imageSrc: img8,
+    quantity: 1,
+    desc: "Decadent and moist chocolate cake with frosting.",
+  },
+  {
+    name: "Vanilla Ice Cream",
+    price: 90,
+    rating: 2.7,
+    imageSrc: img9,
+    quantity: 1,
+    desc: "Creamy vanilla ice cream, a classic favorite.",
+  },
+  {
+    name: "Coke",
+    price: 120,
+    rating: 4.5,
+    imageSrc: img10,
+    quantity: 1,
+    desc: "Chilled and refreshing soda, perfect for any meal.",
+  },
 ];
-
 
 const categories = [
   {

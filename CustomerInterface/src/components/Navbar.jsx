@@ -13,9 +13,9 @@ import Loading from "./Loading";
 
 const Fryingpan = () => {
   return (
-    <>
-      <img src={fryingpan} alt="" className="w-10 h-10 -mt-3 mr-2" />
-    </>
+    <div className="w-10 h-10 -mt-3 mr-2">
+      <img src={fryingpan} alt="" className="w-full h-full object-cover" />
+    </div>
   );
 };
 
@@ -239,7 +239,7 @@ const Navbar = () => {
 
         <div className="flex flex-col gap-3 lg:px-8 xl:pr-20">
           <div className="w-full flex lg:justify-center justify-end items-center ">
-            {placedOrders > 0 && <Fryingpan />}
+            {placedOrders.length > 0 && <Fryingpan />}
             <div className="hidden cart-icon lg:flex space-x-6 text-slate-500">
               <CartIcon
                 // size={20}

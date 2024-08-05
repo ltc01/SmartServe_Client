@@ -40,7 +40,7 @@ export default function Cart({removeFromCart}) {
   // const [open, setOpen] = useState(true)
   // {console.log(setOpen)}
   const navigate = useNavigate()
-  const { open, setOpen, setCart } = useContext(MainContext);
+  const { open, setOpen, setCart, subtotal } = useContext(MainContext);
   const products = JSON.parse(localStorage.getItem("cartItems")) || [];
 
   const updateQuantity = (index, quantity) => {
@@ -50,12 +50,12 @@ export default function Cart({removeFromCart}) {
     setCart(updatedCart); // You need to manage cart state at a higher level or pass a setCart function
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
-  const total = products.reduce((sum, item) => {
-    const priceNumber = parseFloat(
-      item.price.toString().replace(/[^0-9.-]+/g, "")
-    );
-    return sum + priceNumber * item.quantity;
-  }, 0);
+  // const total = products.reduce((sum, item) => {
+  //   const priceNumber = parseFloat(
+  //     item.price.toString().replace(/[^0-9.-]+/g, "")
+  //   );
+  //   return sum + priceNumber * item.quantity;
+  // }, 0);
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-50">
       <DialogBackdrop
@@ -183,10 +183,10 @@ export default function Cart({removeFromCart}) {
                   </div>
                 </div>
 
-                { total > 0 && <div className="border-t border-gray-200 px-4 py-4 sm:px-6">
+                { subtotal > 0 && <div className="border-t border-gray-200 px-4 py-4 sm:px-6">
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
-                    <p className="text-red-700">₹{total}.00</p>
+                    <p className="text-red-700">₹{subtotal}.00</p>
                   </div>
                   <p className="mt-0.5 text-sm text-gray-500">
                   Taxes and additional charges may apply at checkout.</p>

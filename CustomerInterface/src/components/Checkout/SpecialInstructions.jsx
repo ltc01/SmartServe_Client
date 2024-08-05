@@ -209,8 +209,6 @@ const SpecialInstructions = () => {
           </div>
         </div>
       )}
-
-      
     </div>
   );
 };
