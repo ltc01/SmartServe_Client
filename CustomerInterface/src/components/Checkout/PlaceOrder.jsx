@@ -13,6 +13,7 @@ const PlaceOrder = () => {
     setPlacedOrders,
     isLoggedIn,
     total,
+    setOrders,
   } = useContext(MainContext);
   const navigate = useNavigate();
 
@@ -92,17 +93,14 @@ const PlaceOrder = () => {
         // Add current order to placed orders
         const preOrders = JSON.parse(localStorage.getItem("placedOrders")) || [];
         const updatedPlacedOrders = [...preOrders, ...cartItems];
-        localStorage.setItem(
-          "placedOrders",
-          JSON.stringify(updatedPlacedOrders)
-        );
-
+        localStorage.setItem("placedOrders",JSON.stringify(updatedPlacedOrders));
         setPlacedOrders(updatedPlacedOrders);
 
         // Retrieve the existing orders from localStorage
         const existingOrders = JSON.parse(localStorage.getItem("Orders")) || [];
         const updatedOrders = [...existingOrders, orderPayload];
         localStorage.setItem("Orders", JSON.stringify(updatedOrders));
+        setOrders(updatedOrders)
         setTotalOfPlacedOrders((prevTotal) => prevTotal + orderTotal);
       }
     } catch (error) {

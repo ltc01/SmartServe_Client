@@ -51,7 +51,7 @@ const Navbar = () => {
     window.addEventListener("scroll", () =>
       setDisplayOnScroll(
         scrollY >= 30
-          ? "shadow-md border-b border-rose-100 bg-rose-100 backdrop-filter backdrop-blur-lg bg-opacity-30"
+          ? "shadow-sm shadow-slate-500 bg-white"
           : ""
       )
     );
@@ -239,7 +239,7 @@ const Navbar = () => {
 
         <div className="flex flex-col gap-3 lg:px-8 xl:pr-20">
           <div className="w-full flex lg:justify-center justify-end items-center ">
-            {placedOrders.length > 0 && <Fryingpan />}
+            {placedOrders.length > 0 && <div onClick={()=>navigate('/track-orders')}><Fryingpan  /> </div>}
             <div className="hidden cart-icon lg:flex space-x-6 text-slate-500">
               <CartIcon
                 // size={20}

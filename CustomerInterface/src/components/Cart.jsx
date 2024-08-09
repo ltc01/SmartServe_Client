@@ -101,6 +101,22 @@ export default function Cart({removeFromCart}) {
                           <li className="text-slate-500 h-[20rem] flex items-center justify-center ">
                           <EmptyCart />
                           </li>
+                          <div className="mt-3 flex justify-center text-center text-gray-500">
+                {/* <Link to={"/menus"}> */}
+                  <button
+                    type="button"
+                    onClick={()=>{
+                      setOpen(false)
+                      navigate('/menus')
+                    }}
+                    className="font-[700] text-lg text-teal-900 hover:underline"
+                  >
+                  .....take me to the
+                    Menus 🍽
+                    {/* <span aria-hidden="true"> &rarr;</span> */}
+                  </button>
+                {/* </Link> */}
+              </div>
                           </>
                         ) : (
                           <>
@@ -192,24 +208,31 @@ export default function Cart({removeFromCart}) {
                   Taxes and additional charges may apply at checkout.</p>
                   <div className="mt-4 md:mt-6">
                     <div
-                    onClick={()=> navigate('/checkout')}
+                    onClick={()=> {
+                      setOpen(false)
+                      navigate('/checkout')
+                    }}
                       className="flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-6 py-2 md:py-3 text-base font-medium text-white shadow-sm hover:bg-teal-700"
                     >
                       Checkout
                     </div>
                   </div>
                   <div className="mt-3 flex justify-center text-center text-sm text-gray-500">
-                    <Link to={'/menus'}>
-                      or{" "}
+                    {/* <Link to={'/menus'}> */}
+                      {/* or{" "} */}
                       <button
+                      onClick={()=> {
+                        setOpen(false)
+                        navigate('/menus')
+                      }}
                         type="button"
-                        onClick={() => setOpen(false)}
+                        // onClick={() => setOpen(false)}
                         className="font-medium text-teal-600 hover:underline"
                       >
-                        Browse More Dishes🥘
+                        or Browse More Dishes🥘
                         <span aria-hidden="true"> &rarr;</span>
                       </button>
-                    </Link>
+                    {/* </Link> */}
                   </div>
                 </div>}
               </div>

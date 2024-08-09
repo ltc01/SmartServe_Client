@@ -144,7 +144,7 @@ const ProductDetails = () => {
                     type="button"
                     className="font-[700] text-lg text-teal-900 hover:underline"
                   >
-                    {/* Explore Delicious Dishes 🥘 */} .....take me to the
+                  .....take me to the
                     Menus 🍽
                     {/* <span aria-hidden="true"> &rarr;</span> */}
                   </button>

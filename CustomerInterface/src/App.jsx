@@ -7,13 +7,11 @@ import Signup from "./components/Signup";
 import Menus from "./pages/Menus";
 import AboutUs from "./pages/AboutUs";
 import Reviews from "./pages/Reviews";
-import CheckoutPage from "./components/Checkout/CheckoutPage";
 import CardCheckoutPage from "./pages/CardCheckoutPage";
 import ProductPage from "./components/ProductDescription/ProductPage";
 import Loading from "./components/Loading";
 import MainContext from "./context/MainContext";
-// import { Signin } from "./components/Signin";
-// import OrderStatus from "./components/OrderStatus";
+import OrderStatus from "./components/OrderTracking/OrderStatus";
 
 function App() {
   const {loading} = useContext(MainContext)
@@ -23,7 +21,6 @@ function App() {
       {loading && <Loading />}
       <Navbar />
       <Routes>
-        
         <Route path="/" element={<Home />} />
         <Route path="/about-us" element={<AboutUs />}/>
         <Route path="/menus" element={<Menus />}/>
@@ -31,7 +28,7 @@ function App() {
         <Route path="/reviews" element={<Reviews />}/>
         <Route path="/checkout" element={<CardCheckoutPage />}/>
         <Route path="/product" element={<ProductPage  />}/>
-        
+        <Route path="/track-orders" element={<OrderStatus />} />
         
         
         {/* <Route path="/order-status" element={<OrderStatus userId={userId} />} /> */}

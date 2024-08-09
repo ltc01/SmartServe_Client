@@ -37,7 +37,6 @@ const ContextProvider = ({ children }) => {
   const tax = (subtotal - savings + serviceCharge) * taxRate; // Tax calculation based on discounted subtotal
   const total = subtotal - savings + serviceCharge + tax;
 
-
   // states for signup functionality
   const [step, setStep] = useState(1); // Step 1: Phone input, Step 2: OTP input
   const [phone, setPhone] = useState("");
@@ -59,7 +58,7 @@ const ContextProvider = ({ children }) => {
 
   // orderstatus ke states
   const userId = "user123";
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState( JSON.parse(localStorage.getItem("Orders")) || []);
 
   const inputRefs = useRef([]);
   const values = {
@@ -109,7 +108,11 @@ const ContextProvider = ({ children }) => {
     orders,
     setOrders,
     total,
-    subtotal, savings, serviceCharge, taxRate, tax,
+    subtotal,
+    savings,
+    serviceCharge,
+    taxRate,
+    tax,
   };
   return <MainContext.Provider value={values}>{children}</MainContext.Provider>;
 };
