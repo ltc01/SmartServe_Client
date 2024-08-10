@@ -10,13 +10,20 @@ const OrderStatus = () => {
   const { userId, orders, setOrders } = useContext(MainContext);
 
   // uncomment to use
-  // const socket = io('http://localhost:5000');
+  const socket = io('http://localhost:5000');
 
   // useEffect(() => {
-  //   // axios.get(`http://localhost:5000/api/orders/user/${userId}`)
-  //   //   .then(response => setOrders(response.data))
-  //   //   .catch(error => console.error('Error fetching orders:', error));
+  //   async function fetchData() {
+  //     await axios.get(`http://localhost:5000/api/orders/user/${userId}`)
+  //     .then(response => {
+  //       setOrders(response.data);
+  //       localStorage.setItem("Orders", JSON.stringify(response.data));
 
+  //     })
+  //     .catch(error => console.error('Error fetching orders:', error));
+
+  //   }
+  //  fetchData();
   //   socket.on('orderUpdate', updatedOrder => {
   //     setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
   //   });
@@ -24,8 +31,42 @@ const OrderStatus = () => {
   //   return () => {
   //     socket.disconnect();
   //   };
-  // }, [userId, socket]);
+  // }, [orders, socket]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/orders/`);
+        setOrders(response.data);
+        localStorage.setItem("Orders", JSON.stringify(response.data));
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+  
+    fetchData();
+  
+    // const handleOrderUpdate = updatedOrder => {
+    //   setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
+    // };
+    const handleOrderUpdate = updatedOrder => {
+      setOrders(prevOrders => {
+        const orderIndex = prevOrders.findIndex(order => order._id === updatedOrder._id);
+  
+        if (orderIndex !== -1 && prevOrders[orderIndex].status !== updatedOrder.status) {
+          alert("Order updated");
+        }
+  
+        return prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order);
+      });
+    };
+    socket.on('orderUpdate', handleOrderUpdate);
+  
+    return () => {
+      socket.off('orderUpdate', handleOrderUpdate);
+    };
+  }, []);
+  
   const handlePayment = (orderId) => {
     // axios.put(`http://localhost:5000/api/orders/${orderId}/pay`)
     //   .then(response => {
@@ -125,7 +166,7 @@ const OrderStatus = () => {
                   <strong>Amount:</strong> ₹{order.totalAmount.toFixed(2)}
                 </p>
 
-                {order.status !== "approved" && order.paid === false && (
+                {order.status === "approved" && order.paid === false && (
                   <div className="mt-3">
                     <button
                       className="text-sm bg-teal-600 hover:bg-teal-700 mt-2 text-white px-4 py-2 rounded-full"

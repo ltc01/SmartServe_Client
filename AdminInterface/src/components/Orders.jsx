@@ -102,7 +102,7 @@ const Orders = () => {
     return () => {
       socket.disconnect();
     };
-  }, [socket,orders]);
+  }, [orders]);
 
   const updateOrderStatus = (id, status) => {
     axios.put(`http://localhost:5000/api/orders/${id}`, { status })
@@ -124,7 +124,7 @@ const Orders = () => {
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Orders</h2>
-      <ul className="space-y-2">
+      <ul className="space-y-2 flex flex-col-reverse">
         {orders.map(order => (
           <li key={order._id} className="border p-2 rounded shadow flex justify-between items-center">
             <div>

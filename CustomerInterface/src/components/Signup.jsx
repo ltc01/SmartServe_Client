@@ -55,7 +55,7 @@ const Signup = ({ b = true }) => {
     if (result) {
       setStep(2); // Move to OTP input step
       Swal.fire({
-        icon: "Success",
+        icon: "success",
         title: "Mobile OTP",
         text: "OTP sent successfully.",
       });

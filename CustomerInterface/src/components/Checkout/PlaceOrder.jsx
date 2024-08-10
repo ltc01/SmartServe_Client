@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import MainContext from "../../context/MainContext";
+import axios from "axios";
 
 const PlaceOrder = () => {
   const {
@@ -22,17 +23,17 @@ const PlaceOrder = () => {
     // Retrieve the JWT token from local storage
     const token = localStorage.getItem("token");
     // console.log(cartItems, cart);
-    // if (!token) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Error",
-    //     text: "⚠ You must be logged in to place an order.",
-    //   });
-    //   // alert("You must be logged in to place an order.");
-    //   setOpen(false);
-    //   navigate("/sign-up");
-    //   return; // Prevent the function from continuing
-    // }
+    if (!token) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "⚠ You must be logged in to place an order.",
+      });
+      // alert("You must be logged in to place an order.");
+      // setOpen(false);
+      navigate("/sign-up");
+      return; // Prevent the function from continuing
+    }
     // commented upper code for testing purpose
     if (cartItems.length === 0) {
       Swal.fire({
@@ -60,48 +61,50 @@ const PlaceOrder = () => {
     // console.log(orderPayload);
     try {
       setLoading(true);
-      // // Check if the server is running
+      // Check if the server is running
       // const healthCheckResponse = axios.get(
       //   "http://localhost:5000/api/orders"
       // );
-      // if (healthCheckResponse.status !== 200) {
-      //   throw new Error("Server is not running");
+      // if (healthCheckResponse.status !== 201) {
+      //   throw new Error("Server is not running not getting 200.");
       // }
-      // const response = axios.post(
-      //   "http://localhost:5000/api/orders/",
-      //   orderPayload,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`, // Include the JWT token in the request headers
-      //     },
-      //   }
-      // );
-      const response = { status: 201 };
-      setLoading(false);
-      if (response.status !== 201) {
-        throw new Error("Server is not running");
-      } else {
-        Swal.fire({
-          icon: "success",
-          title: "Orders",
-          text: "Order placed successfully!",
-        });
-        // alert("Order placed successfully!");
-        setCart([]);
-        localStorage.removeItem("cartItems");
+      const response = await axios.post(
+        "http://localhost:5000/api/orders/",
+        orderPayload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the JWT token in the request headers
+          },
+        }
+      );
+      // const response = { status: 201 };
+      if (response.status === 201) {
+        setLoading(false);
+          Swal.fire({
+            icon: "success",
+            title: "Orders",
+            text: "Order placed successfully!",
+          });
+          // alert("Order placed successfully!");
+          setCart([]);
+          localStorage.removeItem("cartItems");
+  
+          // Add current order to placed orders
+          const preOrders = JSON.parse(localStorage.getItem("placedOrders")) || [];
+          const updatedPlacedOrders = [...preOrders, ...cartItems];
+          localStorage.setItem("placedOrders",JSON.stringify(updatedPlacedOrders));
+          setPlacedOrders(updatedPlacedOrders);
+  
+          // Retrieve the existing orders from localStorage
+          const existingOrders = JSON.parse(localStorage.getItem("Orders")) || [];
+          const updatedOrders = [...existingOrders, orderPayload];
+          localStorage.setItem("Orders", JSON.stringify(updatedOrders));
+          setOrders(updatedOrders)
+          setTotalOfPlacedOrders((prevTotal) => prevTotal + orderTotal);
+        
+        } else {
+        throw new Error(response.message, "Server is not running");
 
-        // Add current order to placed orders
-        const preOrders = JSON.parse(localStorage.getItem("placedOrders")) || [];
-        const updatedPlacedOrders = [...preOrders, ...cartItems];
-        localStorage.setItem("placedOrders",JSON.stringify(updatedPlacedOrders));
-        setPlacedOrders(updatedPlacedOrders);
-
-        // Retrieve the existing orders from localStorage
-        const existingOrders = JSON.parse(localStorage.getItem("Orders")) || [];
-        const updatedOrders = [...existingOrders, orderPayload];
-        localStorage.setItem("Orders", JSON.stringify(updatedOrders));
-        setOrders(updatedOrders)
-        setTotalOfPlacedOrders((prevTotal) => prevTotal + orderTotal);
       }
     } catch (error) {
       setLoading(false);
@@ -109,7 +112,7 @@ const PlaceOrder = () => {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: `Error placing order: ${error.message}`,
+        text: `Error placing order: ${error}`,
       });
       // alert("Server isn't running. Please try again.");
     }
