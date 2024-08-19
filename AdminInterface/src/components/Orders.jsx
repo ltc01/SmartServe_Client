@@ -91,16 +91,27 @@ const Orders = () => {
   const socket = io('http://localhost:5000');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/orders')
-      .then(response => setOrders(response.data))
-      .catch(error => console.error('Error fetching orders:', error));
-
-    socket.on('orderUpdate', order => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/orders/`);
+        setOrders(response.data);
+        // localStorage.setItem("Orders", JSON.stringify(response.data));
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+  
+    fetchData();
+    // axios.get('http://localhost:5000/api/orders')
+    //   .then(response => setOrders(response.data))
+    //   .catch(error => console.error('Error fetching orders:', error));
+    const handleOrderUpdate = order => {
       setOrders(prevOrders => prevOrders.map(o => o._id === order._id ? order : o));
-    });
+    };
+    socket.emit('orderUpdate', handleOrderUpdate );
 
     return () => {
-      socket.disconnect();
+      socket.off('orderUpdate', handleOrderUpdate);
     };
   }, [orders]);
 

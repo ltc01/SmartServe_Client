@@ -46,26 +46,26 @@ const OrderStatus = () => {
   
     fetchData();
   
-    // const handleOrderUpdate = updatedOrder => {
-    //   setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
-    // };
     const handleOrderUpdate = updatedOrder => {
-      setOrders(prevOrders => {
-        const orderIndex = prevOrders.findIndex(order => order._id === updatedOrder._id);
-  
-        if (orderIndex !== -1 && prevOrders[orderIndex].status !== updatedOrder.status) {
-          alert("Order updated");
-        }
-  
-        return prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order);
-      });
+      setOrders(prevOrders => prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order));
     };
+    // const handleOrderUpdate = updatedOrder => {
+    //   setOrders(prevOrders => {
+    //     const orderIndex = prevOrders.findIndex(order => order._id === updatedOrder._id);
+  
+    //     if (orderIndex !== -1 && prevOrders[orderIndex].status !== updatedOrder.status) {
+    //       alert("Order updated");
+    //     }
+  
+    //     return prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order);
+    //   });
+    // };
     socket.on('orderUpdate', handleOrderUpdate);
   
     return () => {
       socket.off('orderUpdate', handleOrderUpdate);
     };
-  }, []);
+  }, [orders]);
   
   const handlePayment = (orderId) => {
     // axios.put(`http://localhost:5000/api/orders/${orderId}/pay`)
@@ -170,7 +170,7 @@ const OrderStatus = () => {
                   <div className="mt-3">
                     <button
                       className="text-sm bg-teal-600 hover:bg-teal-700 mt-2 text-white px-4 py-2 rounded-full"
-                      onClick={() => handlePayment(order._id)}
+                      onClick={() => handlePaymenT(order._id)}
                     >
                       Make Payment
                     </button>
