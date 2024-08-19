@@ -69,7 +69,7 @@ const Menu = () => {
   return (
     <div
     className='pb-16 md:px-4'>
-      <Tap />
+      {/* <Tap /> */}
       <h2 className="text-2xl text-center font-bold pt-6 py-2">
         Discover Delicious Menus🍝
       </h2>
