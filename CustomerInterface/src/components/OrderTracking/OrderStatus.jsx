@@ -12,7 +12,7 @@ const OrderStatus = () => {
 
 
   // uncomment to use
-  const socket = io('http://localhost:5000');
+  // const socket = io('http://localhost:5000');
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -62,10 +62,10 @@ const OrderStatus = () => {
     //     return prevOrders.map(order => order._id === updatedOrder._id ? updatedOrder : order);
     //   });
     // };
-    socket.on('orderUpdate', handleOrderUpdate);
+    // socket.on('orderUpdate', handleOrderUpdate);
   
     return () => {
-      socket.off('orderUpdate', handleOrderUpdate);
+      // socket.off('orderUpdate', handleOrderUpdate);
     };
   }, [orders]);
   
