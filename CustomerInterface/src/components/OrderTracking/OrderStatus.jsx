@@ -7,7 +7,9 @@ import OrderedItems from "./OrderedItems";
 
 const OrderStatus = () => {
   const navigate = useNavigate();
-  const { userId, orders, setOrders } = useContext(MainContext);
+  const { userId, orders, setOrders, apiUrl } = useContext(MainContext);
+  
+
 
   // uncomment to use
   const socket = io('http://localhost:5000');
@@ -36,7 +38,7 @@ const OrderStatus = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/orders/`);
+        const response = await axios.get(`${apiUrl}/api/orders/`);
         setOrders(response.data);
         localStorage.setItem("Orders", JSON.stringify(response.data));
       } catch (error) {
@@ -77,67 +79,68 @@ const OrderStatus = () => {
     alert("Payment successful");
   };
 
-  const handlePaymenT = async (product) => {
-    const response = await fetch(`${apiUrl}/api/payment/order`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: product.price * 100, // Razorpay accepts amount in paise
-        currency: 'INR',
-        user_id: 'user1234', // Replace with actual user ID
-        product_id: product._id,
-        quantity: 1,
-        paymentMethod: 'Razorpay',
-        shippingAddress: 'Test Address', // Replace with actual shipping address
-      }),
-    });
+  // const handlePaymenT = async (product) => {
+  //   const response = await fetch(`${apiUrl}/api/payment/order`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       amount: product.price * 100, // Razorpay accepts amount in paise
+  //       currency: 'INR',
+  //       user_id: 'user1234', // Replace with actual user ID
+  //       product_id: product._id,
+  //       quantity: 1,
+  //       paymentMethod: 'Razorpay',
+  //       shippingAddress: 'Test Address', // Replace with actual shipping address
+  //     }),
+  //   });
 
-    const data = await response.json();
+  //   const data = await response.json();
 
-    if (data.order_id) {
-      const options = {
-        key: razorpayID,
-        amount: data.amount,
-        currency: data.currency,
-        name: "Divueens",
-        description: "Test Transaction",
-        order_id: data.order_id,
-        handler: async function (response) {
-          const result = await fetch(`${apiUrl}/api/payment/verify`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            }),
-          });
+  //   if (data.order_id) {
+  //     const options = {
+  //       key: razorpayID,
+  //       amount: data.amount,
+  //       currency: data.currency,
+  //       name: "Divueens",
+  //       description: "Test Transaction",
+  //       order_id: data.order_id,
+  //       handler: async function (response) {
+  //         const result = await fetch(`${apiUrl}/api/payment/verify`, {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             razorpay_order_id: response.razorpay_order_id,
+  //             razorpay_payment_id: response.razorpay_payment_id,
+  //             razorpay_signature: response.razorpay_signature,
+  //           }),
+  //         });
 
-          const resultData = await result.json();
-          console.log(resultData,'resultData')
-          alert(resultData.message);
-        },
-        prefill: {
-          name: "Test User",
-          email: "test.user@example.com",
-          contact: "8447890137",
-        },
-        notes: {
-          address: "Test Address",
-        },
-        theme: {
-          color: "#3399cc",
-        },
-      };
+  //         const resultData = await result.json();
+  //         console.log(resultData,'resultData')
+  //         alert(resultData.message);
+  //       },
+  //       prefill: {
+  //         name: "Test User",
+  //         email: "test.user@example.com",
+  //         contact: "8447890137",
+  //       },
+  //       notes: {
+  //         address: "Test Address",
+  //       },
+  //       theme: {
+  //         color: "#3399cc",
+  //       },
+  //     };
 
-      const rzp1 = new window.Razorpay(options);
-      rzp1.open();
-    }
-  };
+  //     const rzp1 = new window.Razorpay(options);
+  //     rzp1.open();
+  //   }
+  // };
+
   return (
     <div className="container my-9 px-4 lg:px-16 mx-auto">
       <h2 className="text-2xl font-bold mb-3">Order Status</h2>

@@ -24,6 +24,7 @@ const ContextProvider = ({ children }) => {
   const [filterStatus, setFilterStatus] = useState("");
   const [searchItem, setSearchItem] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const apiUrl = import.meta.env.VITE_API_URL
 
   const subtotal = cart.reduce((sum, item) => {
     const priceNumber = parseFloat(
@@ -113,6 +114,7 @@ const ContextProvider = ({ children }) => {
     serviceCharge,
     taxRate,
     tax,
+    apiUrl,
   };
   return <MainContext.Provider value={values}>{children}</MainContext.Provider>;
 };

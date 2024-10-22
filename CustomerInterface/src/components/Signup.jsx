@@ -20,8 +20,9 @@ const Signup = ({ b = true }) => {
     error,
     setError,
     inputRefs,
+    apiUrl,
   } = useContext(MainContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/[^0-9]/g, ""); // Only allows digits
@@ -35,12 +36,12 @@ const Signup = ({ b = true }) => {
     }
   };
   const handleKeyDown = (e, index) => {
-    if (e.key === 'Backspace') {
+    if (e.key === "Backspace") {
       const newOtp = [...otp];
       if (!newOtp[index] && index > 0) {
         inputRefs.current[index - 1].focus();
       }
-      newOtp[index] = '';
+      newOtp[index] = "";
       setOtp(newOtp);
     }
   };
@@ -102,6 +103,44 @@ const Signup = ({ b = true }) => {
   // if (loading) {
   //   return <Loading />; // Show loading component when loading
   // }
+  // Function to call backend API for sending OTP
+  const sendOtp = async (name, phone) => {
+    try {
+      const response = await fetch(`${apiUrl}/api/user/send-otp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, phone }),
+      });
+      return response.ok;
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      return false;
+    }
+  };
+
+  // Function to call backend API for verifying OTP
+  const verifyOtp = async (phone, otp) => {
+    try {
+      const response = await fetch(`${apiUrl}/api/user/verify-otp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phone, otp }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return { success: true, token: data.token };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      return false;
+    }
+  };
 
   return (
     <>
@@ -205,44 +244,3 @@ const Signup = ({ b = true }) => {
   );
 };
 export default Signup;
-
-// Function to call backend API for sending OTP
-const sendOtp = async (name, phone) => {
-  try {
-    const response = await fetch("http://localhost:5000/api/user/send-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, phone }),
-    });
-    return response.ok;
-  } catch (error) {
-    console.error("Error sending OTP:", error);
-    return false;
-  }
-};
-
-// Function to call backend API for verifying OTP
-const verifyOtp = async (phone, otp) => {
-  try {
-    const response = await fetch("http://localhost:5000/api/user/verify-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ phone, otp }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return { success: true, token: data.token };
-    } else {
-      return { success: false };
-    }
-  } catch (error) {
-    console.error("Error verifying OTP:", error);
-    return false;
-  }
-};
-
-

@@ -15,6 +15,7 @@ const PlaceOrder = () => {
     isLoggedIn,
     total,
     setOrders,
+    apiUrl
   } = useContext(MainContext);
   const navigate = useNavigate();
 
@@ -69,7 +70,7 @@ const PlaceOrder = () => {
       //   throw new Error("Server is not running not getting 200.");
       // }
       const response = await axios.post(
-        "http://localhost:5000/api/orders/",
+        `${apiUrl}/api/orders/`,
         orderPayload,
         {
           headers: {
